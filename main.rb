@@ -20,16 +20,18 @@ PRESENTATIONS = URI.open('https://raw.githubusercontent.com/ruby-no-kai/rubykaig
   YAML.safe_load(f)
 end
 
+YEAR = ARGV[0]
+
 def download_blogs
-  unless File.exist?("articles/#{ARGV[0]}/urls.yaml")
-    puts "articles/#{ARGV[0]}/urls.yaml not found."
+  unless File.exist?("articles/#{YEAR}/urls.yaml")
+    puts "articles/#{YEAR}/urls.yaml not found."
     exit 1
   end
 
-  File.open("articles/#{ARGV[0]}/urls.yaml", 'r') do |f|
+  File.open("articles/#{YEAR}/urls.yaml", 'r') do |f|
     urls = YAML.safe_load(f)
     urls.each do |url|
-      download_file(url, "articles/#{ARGV[0]}")
+      download_file(url, "articles/#{YEAR}")
     end
   end
 end
@@ -48,7 +50,7 @@ def download_file(uri, path)
 end
 
 def fetch_blog_text(url)
-  html = File.open("articles/#{ARGV[0]}/#{safe_filename_from_url(url)}") do |f|
+  html = File.open("articles/#{YEAR}/#{safe_filename_from_url(url)}") do |f|
     f.read
   end
 
@@ -90,7 +92,7 @@ def main
 
   download_blogs
 
-  File.open("articles/#{ARGV[0]}/urls.yaml", 'r') do |f|
+  File.open("articles/#{YEAR}/urls.yaml", 'r') do |f|
     urls = YAML.safe_load(f)
     urls.each do |url|
       body_text = fetch_blog_text(url)
