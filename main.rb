@@ -44,9 +44,9 @@ def download_file(uri, path)
   safe_uri = safe_filename_from_url(uri)
   return if File.exist?("#{path}/#{safe_uri}")
 
-    URI.open(uri) do |response|
-      IO.copy_stream(response, "#{path}/#{safe_uri}")
-    end
+  URI.open(uri) do |response|
+    IO.copy_stream(response, "#{path}/#{safe_uri}")
+  end
 end
 
 def fetch_blog_text(url)
